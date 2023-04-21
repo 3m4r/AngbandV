@@ -78,6 +78,7 @@ void do_cmd_study(struct command *cmd);
 int do_autopickup(struct player *p);
 void do_cmd_pickup(struct command *cmd);
 void do_cmd_autopickup(struct command *cmd);
+void do_cmd_goto_item(struct command *cmd);
 
 /* cmd-spoil.c */
 void do_cmd_spoil_artifact(struct command *cmd);

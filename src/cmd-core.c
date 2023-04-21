@@ -91,6 +91,7 @@ static const struct command_info game_cmds[] =
 	{ CMD_FIGHT, "fight", do_cmd_fight, false, true, 0 }, 
 	{ CMD_PICKUP, "pickup", do_cmd_pickup, false, true, 0 },
 	{ CMD_AUTOPICKUP, "autopickup", do_cmd_autopickup, false, true, 0 },
+	{ CMD_GOTO_ITEM, "goto nearest item", do_cmd_goto_item, false, true, 0},
 	{ CMD_WIELD, "wear or wield", do_cmd_wield, false, true, 0 },
 	{ CMD_TAKEOFF, "take off", do_cmd_takeoff, false, true, 0 },
 	{ CMD_DROP, "drop", do_cmd_drop, false, true, 0 },

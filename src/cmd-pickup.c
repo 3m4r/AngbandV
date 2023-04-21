@@ -22,6 +22,7 @@
 #include "cmds.h"
 #include "game-event.h"
 #include "game-input.h"
+#include "game-world.h"
 #include "generate.h"
 #include "init.h"
 #include "mon-lore.h"
@@ -447,6 +448,11 @@ void do_cmd_pickup(struct command *cmd)
 {
 	int energy_cost = 0;
 	struct object *obj = NULL;
+	if (!square_object(cave, player->grid)) {
+		cmdq_push(CMD_GOTO_ITEM);
+		cmd_set_arg_point(cmdq_peek(), "point", player->grid);
+		return;
+	}
 
 	/* See if we have an item already */
 	(void) cmd_get_arg_item(cmd, "item", &obj);
@@ -466,6 +472,60 @@ void do_cmd_pickup(struct command *cmd)
 	player->upkeep->redraw |= (PR_ITEMLIST);
 }
 
+/**
+ *  Move the player to the nearest item
+ */
+void do_cmd_goto_item(struct command *cmd)
+{
+	struct point_set *visible_items;
+
+	struct loc grid;
+
+	struct loc last_grid = {-1, -1};
+	struct loc last_last_grid = {-1, -1};
+	bool first_iteration = true;
+
+	while(!player_must_use_own_brain(cave)) {
+		if (square(cave, player->grid)->obj && 
+			!ignore_known_item_ok(player, square(cave, player->grid)->obj)) {
+				/* If this is the first time through, we've landed on the item. */
+				if (first_iteration) {
+					square(cave, player->grid)->obj->known->notice |= OBJ_NOTICE_IGNORE;
+				}
+				else { 
+					disturb(player); 
+					break;
+					}
+		}
+
+		/* Move to nearest object */
+		visible_items = player_visible_objects(cave);
+
+		if (point_set_size(visible_items)) {
+			grid = visible_items->pts[0];
+		} else {
+			disturb(player);
+			msg("You grab a fistful of air.");
+			break;
+		}
+
+		if (loc_eq(last_grid, player->grid) || loc_eq(last_last_grid, player->grid)) {
+			disturb(player);
+			msg("Suddenly, you feel confused.");
+			break;
+		}
+		/* disturb when below HP warning */
+		/* find out loop */
+		cmdq_push(CMD_PATHFIND);
+		cmd_set_arg_point(cmdq_peek(), "point", grid);
+		if (point_set_size(visible_items)) point_set_dispose(visible_items);
+
+		last_last_grid = last_grid;
+		last_grid = player->grid;
+		run_game_loop();
+		first_iteration = false;
+		}
+}
 /**
  * Pick up or look at objects on a square when the player steps onto it
  */

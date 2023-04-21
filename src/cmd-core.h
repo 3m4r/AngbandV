@@ -88,6 +88,7 @@ typedef enum cmd_code {
 	CMD_THROW,
 	CMD_PICKUP,
 	CMD_AUTOPICKUP,
+	CMD_GOTO_ITEM,
 	CMD_IGNORE,
 	CMD_DISARM,
 	CMD_REST,
