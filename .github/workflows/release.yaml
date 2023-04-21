@@ -554,6 +554,10 @@ jobs:
         id: store_config
         run: |
           version=`sed -E -n -e 's/version= //p' $CONFIG_ARTIFACT_PATH`
+          # Prepend 'v' to version if it's not there already
+          if [[ $version != v* ]]; then
+          version="v$version"
+          fi
           echo "version=$version" >> $GITHUB_OUTPUT
           prerelease=`sed -E -n -e 's/prerelease= //p' $CONFIG_ARTIFACT_PATH`
           echo "prerelease=$prerelease" >> $GITHUB_OUTPUT
