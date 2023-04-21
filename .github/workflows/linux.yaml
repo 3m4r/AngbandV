@@ -2,7 +2,7 @@ name: Linux
 
 on:
   push:
-    branches: [ autoautoexplore ]
+    branches: [ master ]
   pull_request:
 
 jobs:

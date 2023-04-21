@@ -2,7 +2,7 @@ name: Windows
 
 on:
   push:
-    branches: [ autoautoexplore ]
+    branches: [ master ]
   pull_request:
 
 jobs:
