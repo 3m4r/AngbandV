@@ -655,3 +655,6 @@ jobs:
             ${{ steps.store_3ds.outputs.archive_path }}
             ${{ steps.store_ds.outputs.archive_path }}
           token: ${{ secrets.GITHUB_TOKEN }}
+
+permissions:
+  contents: write
