@@ -481,51 +481,25 @@ void do_cmd_goto_item(struct command *cmd)
 
 	struct loc grid;
 
-	struct loc last_grid = {-1, -1};
-	struct loc last_last_grid = {-1, -1};
-	bool first_iteration = true;
+	if (player_must_use_own_brain(cave)) return; 
 
-	while(!player_must_use_own_brain(cave)) {
-		if (square(cave, player->grid)->obj && 
-			!ignore_known_item_ok(player, square(cave, player->grid)->obj)) {
-				/* If this is the first time through, we've landed on the item. */
-				if (first_iteration) {
-					square(cave, player->grid)->obj->known->notice |= OBJ_NOTICE_IGNORE;
-				}
-				else { 
-					disturb(player); 
-					break;
-					}
-		}
+	/* Move to nearest object */
+	visible_items = player_visible_objects(cave);
 
-		/* Move to nearest object */
-		visible_items = player_visible_objects(cave);
+	if (point_set_size(visible_items)) {
+		grid = visible_items->pts[0];
+	} else {
+		disturb(player);
+		msg("You grab a fistful of air.");
+		return;
+	}
 
-		if (point_set_size(visible_items)) {
-			grid = visible_items->pts[0];
-		} else {
-			disturb(player);
-			msg("You grab a fistful of air.");
-			break;
-		}
+	cmdq_push(CMD_PATHFIND);
+	cmd_set_arg_point(cmdq_peek(), "point", grid);
+	if (point_set_size(visible_items)) point_set_dispose(visible_items);
 
-		if (loc_eq(last_grid, player->grid) || loc_eq(last_last_grid, player->grid)) {
-			disturb(player);
-			msg("You feel like you've been here before.");
-			break;
-		}
-		/* disturb when below HP warning */
-		/* find out loop */
-		cmdq_push(CMD_PATHFIND);
-		cmd_set_arg_point(cmdq_peek(), "point", grid);
-		if (point_set_size(visible_items)) point_set_dispose(visible_items);
-
-		last_last_grid = last_grid;
-		last_grid = player->grid;
-		run_game_loop();
-		first_iteration = false;
-		}
 }
+
 /**
  * Pick up or look at objects on a square when the player steps onto it
  */
