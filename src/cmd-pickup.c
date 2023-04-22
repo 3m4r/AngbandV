@@ -511,7 +511,7 @@ void do_cmd_goto_item(struct command *cmd)
 
 		if (loc_eq(last_grid, player->grid) || loc_eq(last_last_grid, player->grid)) {
 			disturb(player);
-			msg("Suddenly, you feel confused.");
+			msg("You feel like you've been here before.");
 			break;
 		}
 		/* disturb when below HP warning */

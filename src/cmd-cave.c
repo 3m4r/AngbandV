@@ -1436,7 +1436,7 @@ void do_cmd_explore(struct command *cmd)
 
 		if (loc_eq(last_grid, player->grid) || loc_eq(last_last_grid, player->grid)) {
 			disturb(player);
-			msg("Suddenly, you feel confused.");
+			msg("You feel like you've been here before.");
 			break;
 		}
 		/* disturb when below HP warning */
@@ -1497,7 +1497,7 @@ void do_cmd_find_up(struct command *cmd) {
 
 		if (loc_eq(last_grid, player->grid) || loc_eq(last_last_grid, player->grid)) {
 			disturb(player);
-			msg("Suddenly, you feel confused.");
+			msg("You feel like you've been here before.");
 			break;
 		}
 		/* disturb when below HP warning */
@@ -1560,7 +1560,7 @@ void do_cmd_find_down(struct command *cmd) {
 
 		if (loc_eq(last_grid, player->grid) || loc_eq(last_last_grid, player->grid)) {
 			disturb(player);
-			msg("Suddenly, you feel confused.");
+			msg("You feel like you've been here before.");
 			break;
 		}
 		/* disturb when below HP warning */
