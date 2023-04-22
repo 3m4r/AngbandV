@@ -1687,6 +1687,11 @@ bool player_is_sick(struct player *p) {
 		return true;
 	}
 
+	if ((player->mhp * player->opts.hitpoint_warn / 10) > player->chp) {
+		msg("You're too injured.");
+		return true;
+	}
+
     return false;
 }
 
