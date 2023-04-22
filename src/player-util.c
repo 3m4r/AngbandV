@@ -1681,7 +1681,12 @@ bool player_is_sick(struct player *p) {
         msg("You are too poisoned.");
         return true;
     }
-	/* XXX - Need to add in hunger */
+	
+	if (!player_timed_grade_eq(player, TMD_FOOD, "Fed") && !player_timed_grade_eq(player, TMD_FOOD, "Full")) {
+		msg("You're too hungry.");
+		return true;
+	}
+
     return false;
 }
 
