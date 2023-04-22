@@ -1392,7 +1392,6 @@ void do_cmd_pathfind(struct command *cmd)
  */
 void do_cmd_explore(struct command *cmd)
 {
-
 	struct point_set *unexplored_locations;
 	struct point_set *visible_items;
 	struct point_set *closed_doors;
@@ -1404,8 +1403,6 @@ void do_cmd_explore(struct command *cmd)
 	struct loc penultimate_grid = {-1, -1};
 
 	bool first_iteration = true;
-
-	// for (obj = square_object(c, grid); obj; obj = obj->next)
 
 	while (!player_must_use_own_brain(cave)) {
 		if (square_object(cave, player->grid)) {
@@ -1446,8 +1443,7 @@ void do_cmd_explore(struct command *cmd)
 			msg("You feel like you've been here before.");
 			break;
 		}
-		/* disturb when below HP warning */
-		/* find out loop */
+
 		cmdq_push(CMD_PATHFIND);
 		cmd_set_arg_point(cmdq_peek(), "point", grid);
 		if (point_set_size(unexplored_locations)) point_set_dispose(unexplored_locations);
