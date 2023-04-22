@@ -1862,10 +1862,10 @@ struct point_set *player_reachable_unknown_grids(struct chunk *c)
 	int min_y, min_x, max_y, max_x;
 	struct point_set *results = point_set_new(AE_INITIAL_SIZE);
 
-	min_y = player->grid.y - z_info->max_range;
-	max_y = player->grid.y + z_info->max_range + 1;
-	min_x = player->grid.x - z_info->max_range;
-	max_x = player->grid.x + z_info->max_range + 1;
+	min_y = 0;
+	max_y = c->height + 1;
+	min_x = 0;
+	max_x = c->width + 1;
 
 	/* Scan for unknown grids in path */
 	for (y = min_y; y < max_y; y++) {
@@ -1908,10 +1908,10 @@ struct point_set *player_reachable_closed_doors(struct chunk *c)
 	int min_y, min_x, max_y, max_x;
 	struct point_set *results = point_set_new(AE_INITIAL_SIZE);
 
-	min_y = player->grid.y - z_info->max_range;
-	max_y = player->grid.y + z_info->max_range + 1;
-	min_x = player->grid.x - z_info->max_range;
-	max_x = player->grid.x + z_info->max_range + 1;
+	min_y = 0;
+	max_y = c->height + 1;
+	min_x = 0;
+	max_x = c->width + 1;
 
 	/* Scan for unknown grids in path */
 	for (y = min_y; y < max_y; y++) {
@@ -1942,10 +1942,10 @@ struct point_set *player_reachable_down_stairs(struct chunk *c)
 	int min_y, min_x, max_y, max_x;
 	struct point_set *results = point_set_new(AE_INITIAL_SIZE);
 
-	min_y = player->grid.y - z_info->max_range;
-	max_y = player->grid.y + z_info->max_range + 1;
-	min_x = player->grid.x - z_info->max_range;
-	max_x = player->grid.x + z_info->max_range + 1;
+	min_y = 0;
+	max_y = c->height + 1;
+	min_x = 0;
+	max_x = c->width + 1;
 
 	/* Scan for unknown grids in path */
 	for (y = min_y; y < max_y; y++) {
@@ -1982,10 +1982,10 @@ struct point_set *player_reachable_up_stairs(struct chunk *c)
 	int min_y, min_x, max_y, max_x;
 	struct point_set *results = point_set_new(AE_INITIAL_SIZE);
 
-	min_y = player->grid.y - z_info->max_range;
-	max_y = player->grid.y + z_info->max_range + 1;
-	min_x = player->grid.x - z_info->max_range;
-	max_x = player->grid.x + z_info->max_range + 1;
+	min_y = 0;
+	max_y = c->height + 1;
+	min_x = 0;
+	max_x = c->width + 1;
 
 	/* Scan for unknown grids in path */
 	for (y = min_y; y < max_y; y++) {
