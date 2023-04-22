@@ -1422,20 +1422,6 @@ void do_cmd_explore(struct command *cmd)
 				break;
 			}
 		}
-
-		// if (square(cave, player->grid)->obj && 
-		// 	!ignore_known_item_ok(player, square(cave, player->grid)->obj)) {
-		// 		/* If this is the first time through, we're already 
-		// 		on an item, so we squelch it. */
-		// 		if (first_iteration) {
-		// 			square(cave, player->grid)->obj->known->notice |= OBJ_NOTICE_IGNORE;
-		// 		}
-		// 		/* Otherwise we announce the item and stop. */
-		// 		else { 
-		// 			disturb(player); 
-		// 			break;
-		// 			}
-		// }
 		
 		/* Move to nearest object */
 		visible_items = player_visible_objects(cave);
