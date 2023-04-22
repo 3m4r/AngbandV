@@ -1397,25 +1397,46 @@ void do_cmd_explore(struct command *cmd)
 	struct point_set *visible_items;
 	struct point_set *closed_doors;
 
-	struct loc grid;
+	struct object *obj;
 
+	struct loc grid;
 	struct loc last_grid = {-1, -1};
-	struct loc last_last_grid = {-1, -1};
+	struct loc penultimate_grid = {-1, -1};
+
 	bool first_iteration = true;
 
-	while(!player_must_use_own_brain(cave)) {
-		if (square(cave, player->grid)->obj && 
-			!ignore_known_item_ok(player, square(cave, player->grid)->obj)) {
-				/* If this is the first time through, we've landed on the item. */
-				if (first_iteration) {
-					square(cave, player->grid)->obj->known->notice |= OBJ_NOTICE_IGNORE;
-				}
-				else { 
-					disturb(player); 
-					break;
+	// for (obj = square_object(c, grid); obj; obj = obj->next)
+
+	while (!player_must_use_own_brain(cave)) {
+		if (square_object(cave, player->grid)) {
+			if (first_iteration) {
+				/* Squelch everything on square */
+				for (obj = square_object(cave, player->grid); obj; obj = obj->next) {
+					if (!ignore_known_item_ok(player, obj)) {
+						obj->known->notice |= OBJ_NOTICE_IGNORE;
 					}
+				}
+			} else {
+				/* Announce item and stop */
+				disturb(player);
+				break;
+			}
 		}
 
+		// if (square(cave, player->grid)->obj && 
+		// 	!ignore_known_item_ok(player, square(cave, player->grid)->obj)) {
+		// 		/* If this is the first time through, we're already 
+		// 		on an item, so we squelch it. */
+		// 		if (first_iteration) {
+		// 			square(cave, player->grid)->obj->known->notice |= OBJ_NOTICE_IGNORE;
+		// 		}
+		// 		/* Otherwise we announce the item and stop. */
+		// 		else { 
+		// 			disturb(player); 
+		// 			break;
+		// 			}
+		// }
+		
 		/* Move to nearest object */
 		visible_items = player_visible_objects(cave);
 		unexplored_locations = player_reachable_unknown_grids(cave);
@@ -1434,7 +1455,7 @@ void do_cmd_explore(struct command *cmd)
 			break;
 		}
 
-		if (loc_eq(last_grid, player->grid) || loc_eq(last_last_grid, player->grid)) {
+		if (loc_eq(last_grid, player->grid) || loc_eq(penultimate_grid, player->grid)) {
 			disturb(player);
 			msg("You feel like you've been here before.");
 			break;
@@ -1447,7 +1468,7 @@ void do_cmd_explore(struct command *cmd)
 		if (point_set_size(visible_items)) point_set_dispose(visible_items);
 		if (point_set_size(closed_doors)) point_set_dispose(closed_doors);
 
-		last_last_grid = last_grid;
+		penultimate_grid = last_grid;
 		last_grid = player->grid;
 		run_game_loop();
 		first_iteration = false;
